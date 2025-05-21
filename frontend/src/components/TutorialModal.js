@@ -163,7 +163,14 @@ function TutorialModal({ isOpen, onClose }) {
                 >
                   Finish Tutorial
                 </button>
-              ) : null
+              ) : (
+                <button
+                  onClick={onClose}
+                  className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md"
+                >
+                  Cancel Tutorial
+                </button>
+              )
             )}
 
             <button
