@@ -25,6 +25,15 @@ function Header() {
         
         <div className="flex items-center space-x-4">
           <button
+            onClick={() => setIsHelpModalOpen(true)}
+            className="flex items-center px-3 py-1.5 rounded-md border border-gray-400 hover:bg-opacity-20 hover:bg-gray-500"
+            title="Help"
+          >
+            <QuestionMarkCircleIcon className="h-5 w-5 mr-1" />
+            <span className="hidden sm:inline">Help</span>
+          </button>
+          
+          <button
             onClick={() => setIsResetModalOpen(true)}
             className="flex items-center px-3 py-1.5 rounded-md border border-gray-400 hover:bg-opacity-20 hover:bg-gray-500"
             title="Reset Repository"
