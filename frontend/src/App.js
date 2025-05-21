@@ -11,6 +11,7 @@ function App() {
   const { theme } = useThemeStore();
   const { initialized, initializeRepository } = useGitStore();
   const [showWelcome, setShowWelcome] = useState(!initialized);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
   useEffect(() => {
     // Check if the repository is already initialized
