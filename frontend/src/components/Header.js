@@ -64,23 +64,38 @@ function Header() {
 
       {/* Reset Confirmation Modal */}
       {isResetModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className={`p-6 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} max-w-md w-full`}>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={(e) => {
+            // Close modal when clicking outside
+            if (e.target === e.currentTarget) {
+              setIsResetModalOpen(false);
+            }
+          }}
+        >
+          <div className={`p-6 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} max-w-md w-full relative`}>
+            <button 
+              onClick={() => setIsResetModalOpen(false)}
+              className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-700"
+              aria-label="Close"
+            >
+              <XMarkIcon className="h-5 w-5" />
+            </button>
             <h3 className="text-xl font-bold mb-4">Reset Repository?</h3>
             <p className="mb-6">This will clear all commits, branches, and history. Are you sure you want to continue?</p>
-            <div className="flex justify-end space-x-4">
+            <div className="flex justify-center space-x-6">
               <button
                 onClick={() => setIsResetModalOpen(false)}
-                className="px-4 py-2 rounded-md border border-gray-400"
+                className="px-6 py-3 rounded-md border border-gray-400 font-medium"
               >
-                Cancel
+                No, Keep Repository
               </button>
               <button
                 onClick={handleReset}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-                style={{ zIndex: 60 }}
+                className="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 font-medium"
+                style={{ position: 'relative', zIndex: 60 }}
               >
-                Reset
+                Yes, Reset Everything
               </button>
             </div>
           </div>
