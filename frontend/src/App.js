@@ -66,6 +66,9 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Tutorial Modal */}
+      <TutorialModal isOpen={isTutorialOpen} onClose={() => setIsTutorialOpen(false)} />
     </div>
   );
 }
