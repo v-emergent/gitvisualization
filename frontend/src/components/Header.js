@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useThemeStore } from '../store/themeStore';
 import { useGitStore } from '../store/gitStore';
-import { SunIcon, MoonIcon, ArrowPathIcon, CodeBracketIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { SunIcon, MoonIcon, ArrowPathIcon, CodeBracketIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import HelpModal from './HelpModal';
 
 function Header() {
