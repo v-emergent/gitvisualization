@@ -3,7 +3,7 @@ import { useGitStore } from '../store/gitStore';
 import { useThemeStore } from '../store/themeStore';
 import { ArrowUpIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 
-function CommandInput() {
+function CommandInput({ onStartTutorial }) {
   const { executeCommand, commandHistory, lastCommandOutput } = useGitStore();
   const { theme } = useThemeStore();
   const [command, setCommand] = useState('');
