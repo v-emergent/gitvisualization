@@ -59,12 +59,12 @@ export const useGitStore = create(
       
       // Reset the repository to initial state
       resetRepository: () => {
-        set((state) => ({
+        set({
           repository: { ...initialRepositoryState },
           commandHistory: [],
           lastCommandOutput: [],
           initialized: false,
-        }));
+        });
       },
       
       // Execute a git command
