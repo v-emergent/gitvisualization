@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useGitStore } from '../store/gitStore';
 import { useThemeStore } from '../store/themeStore';
-import { ArrowUpIcon } from '@heroicons/react/24/outline';
+import { ArrowUpIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 
 function CommandInput() {
   const { executeCommand, commandHistory, lastCommandOutput } = useGitStore();
