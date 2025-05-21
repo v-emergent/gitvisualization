@@ -8,6 +8,7 @@ function Header() {
   const { theme, toggleTheme } = useThemeStore();
   const { resetRepository } = useGitStore();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
   const handleReset = () => {
     resetRepository();
