@@ -55,6 +55,21 @@ const tutorialSteps = [
     command: "git commit -m \"Fix critical bug\"",
   },
   {
+    title: "Reset a Commit",
+    content: "Sometimes you need to move backward in history. Git reset moves the HEAD pointer (and optionally changes files). Let's reset to our previous commit with --hard mode.",
+    command: "git reset --hard HEAD~1",
+  },
+  {
+    title: "Create Another Commit",
+    content: "Let's add another commit after resetting, to create some history we can revert.",
+    command: "git commit -m \"New approach to fix bug\"",
+  },
+  {
+    title: "Revert a Commit",
+    content: "Unlike reset which modifies history, revert creates a new commit that undoes changes from a previous commit. Let's revert our bug fix commit.",
+    command: "git revert HEAD",
+  },
+  {
     title: "Tutorial Complete!",
     content: "You've completed the basic Git commands tutorial! You can now continue experimenting with Git commands on your own or reset the repository to start fresh.",
     command: null,
