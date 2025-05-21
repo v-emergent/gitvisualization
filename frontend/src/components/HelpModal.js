@@ -124,6 +124,25 @@ function HelpModal({ isOpen, onClose }) {
                   <p className="text-sm">Shows the state of the working directory and staging area.</p>
                   <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git status</pre>
                 </div>
+
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <h4 className="font-medium mb-2">git reset</h4>
+                  <p className="text-sm">Resets current HEAD to the specified state. Has different modes:</p>
+                  <ul className="list-disc list-inside mt-1 space-y-1 text-xs">
+                    <li><strong>--soft</strong>: Only moves HEAD pointer</li>
+                    <li><strong>--mixed</strong>: Moves HEAD and updates staging area (default)</li>
+                    <li><strong>--hard</strong>: Moves HEAD, updates staging area and working directory</li>
+                  </ul>
+                  <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git reset --soft HEAD~1</pre>
+                  <pre className="mt-1 text-xs bg-black text-green-400 p-2 rounded">$ git reset --hard commit_id</pre>
+                </div>
+                
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <h4 className="font-medium mb-2">git revert</h4>
+                  <p className="text-sm">Creates a new commit that undoes changes from a specific commit.</p>
+                  <p className="text-xs mt-1">Unlike reset, revert doesn't remove commits from history.</p>
+                  <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git revert commit_id</pre>
+                </div>
               </div>
               
               <h3 className="text-lg font-medium mb-3">Command History</h3>
