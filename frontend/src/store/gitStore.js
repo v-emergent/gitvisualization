@@ -746,13 +746,55 @@ function handleGitRevert(repository, args) {
   
   // Get commit to revert
   const targetArg = args[0];
-  const commit = repository.commits[targetArg] || 
-                Object.values(repository.commits).find(c => c.id.startsWith(targetArg));
+  
+  // Handle HEAD reference
+  let commitToRevertId;
+  if (targetArg === 'HEAD') {
+    // Get current HEAD commit ID
+    if (repository.HEAD.type === 'branch') {
+      commitToRevertId = repository.branches[repository.HEAD.reference];
+    } else {
+      commitToRevertId = repository.HEAD.reference;
+    }
+  } else if (targetArg.startsWith('HEAD~')) {
+    // Handle HEAD~n reference
+    const steps = parseInt(targetArg.substring(5)) || 1; // Default to 1 if not specified or invalid
+    
+    let currentCommitId;
+    if (repository.HEAD.type === 'branch') {
+      currentCommitId = repository.branches[repository.HEAD.reference];
+    } else {
+      currentCommitId = repository.HEAD.reference;
+    }
+    
+    // Traverse back n steps
+    let target = repository.commits[currentCommitId];
+    for (let i = 0; i < steps && target && target.parents && target.parents.length > 0; i++) {
+      target = repository.commits[target.parents[0]];
+    }
+    
+    if (!target) {
+      return { 
+        success: false, 
+        message: `Cannot resolve reference '${targetArg}'`,
+        error: true
+      };
+    }
+    
+    commitToRevertId = target.id;
+  } else {
+    // Direct commit ID or partial hash
+    commitToRevertId = targetArg;
+  }
+  
+  // Find the commit by ID or partial hash
+  const commit = repository.commits[commitToRevertId] || 
+                Object.values(repository.commits).find(c => c.id.startsWith(commitToRevertId));
   
   if (!commit) {
     return { 
       success: false, 
-      message: `Cannot find commit '${targetArg}'`,
+      message: `Cannot find commit '${targetArg}' (resolved to '${commitToRevertId}')`,
       error: true
     };
   }
