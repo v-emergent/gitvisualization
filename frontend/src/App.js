@@ -3,6 +3,7 @@ import "./App.css";
 import GitVisualization from "./components/GitVisualization";
 import CommandInput from "./components/CommandInput";
 import Header from "./components/Header";
+import TutorialModal from "./components/TutorialModal";
 import { useGitStore } from "./store/gitStore";
 import { useThemeStore } from "./store/themeStore";
 
