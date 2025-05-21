@@ -583,3 +583,184 @@ function handleGitLog(repository, args) {
     message: output || 'No commit history'
   };
 }
+
+// Reset current HEAD to specified state
+function handleGitReset(repository, args) {
+  if (!repository.initialized) {
+    return { 
+      success: false, 
+      message: 'Not a git repository',
+      error: true
+    };
+  }
+  
+  if (args.length === 0) {
+    return { 
+      success: false, 
+      message: 'You must specify a commit or reference',
+      error: true
+    };
+  }
+  
+  // Parse mode (--soft, --mixed, --hard)
+  let mode = 'mixed'; // Default mode
+  if (args.includes('--soft')) {
+    mode = 'soft';
+  } else if (args.includes('--hard')) {
+    mode = 'hard';
+  } else if (args.includes('--mixed')) {
+    mode = 'mixed';
+  }
+  
+  // Get target commit
+  const targetArg = args.find(arg => !arg.startsWith('--'));
+  if (!targetArg) {
+    return { 
+      success: false, 
+      message: 'You must specify a commit or reference',
+      error: true
+    };
+  }
+  
+  // Check if HEAD is detached
+  if (repository.HEAD.type !== 'branch') {
+    return { 
+      success: false, 
+      message: 'Cannot reset in detached HEAD state. Checkout a branch first.',
+      error: true
+    };
+  }
+  
+  // Handle common relative references
+  let targetCommitId;
+  if (targetArg === 'HEAD~1' || targetArg === 'HEAD~') {
+    // Get parent of current HEAD
+    const currentCommitId = repository.branches[repository.HEAD.reference];
+    const currentCommit = repository.commits[currentCommitId];
+    
+    if (!currentCommit || !currentCommit.parents || currentCommit.parents.length === 0) {
+      return { 
+        success: false, 
+        message: 'Cannot reset: HEAD has no parent',
+        error: true
+      };
+    }
+    
+    targetCommitId = currentCommit.parents[0];
+  } else {
+    // Try to find the commit by id or short id
+    const commit = repository.commits[targetArg] || 
+                  Object.values(repository.commits).find(c => c.id.startsWith(targetArg));
+    
+    if (!commit) {
+      return { 
+        success: false, 
+        message: `Cannot find commit '${targetArg}'`,
+        error: true
+      };
+    }
+    
+    targetCommitId = commit.id;
+  }
+  
+  // Update branch pointer
+  const branchName = repository.HEAD.reference;
+  repository.branches[branchName] = targetCommitId;
+  
+  // Different behaviors based on reset mode
+  let modeMessage;
+  switch (mode) {
+    case 'soft':
+      modeMessage = 'with --soft: only HEAD was changed';
+      break;
+    case 'hard':
+      modeMessage = 'with --hard: HEAD, index and working directory were changed';
+      break;
+    default: // mixed
+      modeMessage = 'with --mixed (default): HEAD and index were changed';
+  }
+  
+  return { 
+    success: true, 
+    message: `Reset to ${targetCommitId.substring(0, 7)} ${modeMessage}`
+  };
+}
+
+// Revert some existing commits
+function handleGitRevert(repository, args) {
+  if (!repository.initialized) {
+    return { 
+      success: false, 
+      message: 'Not a git repository',
+      error: true
+    };
+  }
+  
+  if (args.length === 0) {
+    return { 
+      success: false, 
+      message: 'You must specify a commit to revert',
+      error: true
+    };
+  }
+  
+  // Get commit to revert
+  const targetArg = args[0];
+  const commit = repository.commits[targetArg] || 
+                Object.values(repository.commits).find(c => c.id.startsWith(targetArg));
+  
+  if (!commit) {
+    return { 
+      success: false, 
+      message: `Cannot find commit '${targetArg}'`,
+      error: true
+    };
+  }
+  
+  // Get current HEAD commit
+  let currentCommitId;
+  if (repository.HEAD.type === 'branch') {
+    currentCommitId = repository.branches[repository.HEAD.reference];
+  } else {
+    currentCommitId = repository.HEAD.reference;
+  }
+  
+  if (!currentCommitId) {
+    return { 
+      success: false, 
+      message: 'HEAD not set',
+      error: true
+    };
+  }
+  
+  const currentCommit = repository.commits[currentCommitId];
+  
+  // Create revert commit
+  const newCommitId = uuidv4();
+  repository.commits[newCommitId] = {
+    id: newCommitId,
+    message: `Revert "${commit.message}"`,
+    parents: [currentCommitId],
+    author: 'User',
+    timestamp: Date.now(),
+    color: getRandomColor(),
+    x: currentCommit.x + 150,
+    y: currentCommit.y
+  };
+  
+  // Update branch if HEAD points to a branch
+  if (repository.HEAD.type === 'branch') {
+    repository.branches[repository.HEAD.reference] = newCommitId;
+  } else {
+    // Update HEAD to point to the new commit in detached state
+    repository.HEAD = {
+      type: 'commit',
+      reference: newCommitId
+    };
+  }
+  
+  return { 
+    success: true, 
+    message: `Created revert commit: ${newCommitId.substring(0, 7)}\nReverted commit ${commit.id.substring(0, 7)}: ${commit.message}`
+  };
+}
