@@ -51,10 +51,50 @@ export const useGitStore = create(
       
       // Initialize a new repository
       initializeRepository: () => {
-        set((state) => ({
-          repository: { ...initialRepositoryState },
+        const newRepository = { ...initialRepositoryState };
+        
+        // Initialize repository similar to git init
+        const x = 300;
+        const y = 200;
+        
+        // Create initial commit
+        const commitId = uuidv4();
+        
+        // Set up initial repository state
+        newRepository.initialized = true;
+        newRepository.commits = {
+          [commitId]: {
+            id: commitId,
+            message: 'Initial commit',
+            parents: [],
+            author: 'User',
+            timestamp: Date.now(),
+            color: getRandomColor(),
+            x,
+            y
+          }
+        };
+        newRepository.branches = {
+          'main': commitId
+        };
+        newRepository.HEAD = {
+          type: 'branch',
+          reference: 'main'
+        };
+        newRepository.currentBranch = 'main';
+        
+        set({
+          repository: newRepository,
+          commandHistory: ['git init'],
+          lastCommandOutput: [
+            { 
+              command: 'git init', 
+              message: 'Initialized empty Git repository',
+              error: false
+            }
+          ],
           initialized: true,
-        }));
+        });
       },
       
       // Reset the repository to initial state
