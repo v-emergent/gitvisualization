@@ -61,7 +61,7 @@ function App() {
               <GitVisualization />
             </div>
             <div className="lg:col-span-1">
-              <CommandInput />
+              <CommandInput onStartTutorial={() => setIsTutorialOpen(true)} />
             </div>
           </div>
         </div>
