@@ -78,6 +78,7 @@ function Header() {
               <button
                 onClick={handleReset}
                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                style={{ zIndex: 60 }}
               >
                 Reset
               </button>
