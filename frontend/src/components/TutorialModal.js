@@ -111,6 +111,7 @@ function TutorialModal({ isOpen, onClose }) {
           <button
             onClick={onClose}
             className="p-1 rounded-full hover:bg-gray-700"
+            aria-label="Close"
           >
             <XMarkIcon className="h-6 w-6" />
           </button>
