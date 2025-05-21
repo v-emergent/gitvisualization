@@ -113,7 +113,10 @@ function TutorialModal({ isOpen, onClose }) {
         }
       }}
     >
-      <div className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-lg shadow-xl max-w-lg w-full overflow-hidden`}>
+      <div 
+        className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-lg shadow-xl max-w-lg w-full overflow-hidden`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
           <h2 className="text-xl font-bold">Git Tutorial</h2>
           <button
