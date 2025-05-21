@@ -85,6 +85,9 @@ function Header() {
           </div>
         </div>
       )}
+
+      {/* Help Modal */}
+      <HelpModal isOpen={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)} />
     </header>
   );
 }
