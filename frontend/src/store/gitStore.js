@@ -118,6 +118,12 @@ export const useGitStore = create(
           case 'log':
             result = handleGitLog(updatedRepository, args);
             break;
+          case 'reset':
+            result = handleGitReset(updatedRepository, args);
+            break;
+          case 'revert':
+            result = handleGitRevert(updatedRepository, args);
+            break;
           default:
             result = { 
               success: false, 
