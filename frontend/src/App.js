@@ -17,6 +17,8 @@ function App() {
     // Check if the repository is already initialized
     if (!initialized) {
       setShowWelcome(true);
+    } else {
+      setShowWelcome(false);
     }
   }, [initialized]);
 
