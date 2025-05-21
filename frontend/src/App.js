@@ -35,12 +35,24 @@ function App() {
           <p className="text-xl mb-8 text-center max-w-2xl">
             Learn Git through interactive visualizations. See how Git commands affect your repository in real-time.
           </p>
-          <button
-            onClick={handleStartDemo}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-          >
-            Start Demo Repository
-          </button>
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button
+              onClick={handleStartDemo}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+              Start Demo Repository
+            </button>
+            <button
+              onClick={() => {
+                initializeRepository();
+                setShowWelcome(false);
+                setIsTutorialOpen(true);
+              }}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
+            >
+              Start Guided Tutorial
+            </button>
+          </div>
         </div>
       ) : (
         <div className="container mx-auto px-4 pt-4 pb-16">
