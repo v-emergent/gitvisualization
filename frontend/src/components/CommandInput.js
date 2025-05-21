@@ -116,6 +116,18 @@ function CommandInput({ onStartTutorial }) {
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git checkout [branch]</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git merge [branch]</div>
         </div>
+        
+        {onStartTutorial && (
+          <div className="mt-6">
+            <button
+              onClick={onStartTutorial}
+              className={`w-full py-2 px-4 ${theme === 'dark' ? 'bg-green-700 hover:bg-green-800' : 'bg-green-600 hover:bg-green-700'} text-white rounded-md flex items-center justify-center`}
+            >
+              <AcademicCapIcon className="h-5 w-5 mr-2" />
+              Start Guided Tutorial
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
