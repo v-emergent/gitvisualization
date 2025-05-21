@@ -115,6 +115,8 @@ function CommandInput({ onStartTutorial }) {
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git branch [name]</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git checkout [branch]</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git merge [branch]</div>
+          <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git reset [--soft|--mixed|--hard] [commit]</div>
+          <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git revert [commit]</div>
         </div>
         
         {onStartTutorial && (
