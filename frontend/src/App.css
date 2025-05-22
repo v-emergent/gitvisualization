@@ -7,11 +7,35 @@
 .react-flow__node {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.react-flow__node:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .react-flow__handle {
   width: 10px;
   height: 10px;
+  background-color: #9ca3af;
+  border: 2px solid #fff;
+  transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+  background-color: #4b5563;
+  transform: scale(1.2);
+}
+
+/* Improved edge styling */
+.react-flow__edge-path {
+  stroke-width: 2px;
+  transition: stroke 0.2s ease;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke-width: 3px;
 }
 
 /* Animated connection line for HEAD */
