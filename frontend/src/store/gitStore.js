@@ -55,10 +55,6 @@ export const useGitStore = create(
         const newRepository = { ...initialRepositoryState };
         
         // Initialize repository similar to git init
-        const x = 300;
-        const y = 200;
-        
-        // Create initial commit
         const commitId = uuidv4();
         
         // Set up initial repository state
@@ -71,8 +67,8 @@ export const useGitStore = create(
             author: 'User',
             timestamp: Date.now(),
             color: getRandomColor(),
-            x,
-            y
+            x: 0, // These will be calculated by the layout algorithm
+            y: 0
           }
         };
         newRepository.branches = {
@@ -84,8 +80,11 @@ export const useGitStore = create(
         };
         newRepository.currentBranch = 'main';
         
+        // Apply layout algorithm
+        const layoutRepository = calculateRepositoryLayout(newRepository);
+        
         set({
-          repository: newRepository,
+          repository: layoutRepository,
           commandHistory: ['git init'],
           lastCommandOutput: [
             { 
