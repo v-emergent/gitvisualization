@@ -156,14 +156,18 @@ function GitVisualization() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   
   // Update nodes and edges when repository changes
-  useMemo(() => {
+  useEffect(() => {
     setNodes(initialNodes);
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setNodes, setEdges]);
   
-  const onLayout = useCallback(() => {
-    // No automatic layout for now as we use predefined positions
-  }, []);
+  // Define edge types for different edge styles
+  const edgeTypes = {
+    default: 'smoothstep',
+  };
+  
+  // Default viewport settings
+  const defaultViewport = { x: 0, y: 0, zoom: 1 };
   
   return (
     <div className={`border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'} rounded-lg overflow-hidden h-[70vh]`}>
@@ -173,8 +177,23 @@ function GitVisualization() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        defaultViewport={defaultViewport}
         fitView
+        fitViewOptions={{ 
+          padding: 0.2,
+          includeHiddenNodes: true,
+          minZoom: 0.5,
+          maxZoom: 2
+        }}
         attributionPosition="bottom-right"
+        panOnScroll
+        minZoom={0.2}
+        maxZoom={2}
+        nodesDraggable={false}
+        zoomOnDoubleClick={false}
+        snapToGrid={true}
+        snapGrid={[20, 20]}
       >
         <Background color={theme === 'dark' ? '#4b5563' : '#d1d5db'} gap={16} />
         <Controls />
