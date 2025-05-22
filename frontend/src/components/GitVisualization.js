@@ -110,17 +110,27 @@ function GitVisualization() {
         ? generateNodeId('branch', repository.HEAD.reference)
         : generateNodeId('commit', repository.HEAD.reference);
       
-      // Find the target node to position relative to it
-      const targetNode = nodes.find(node => node.id === targetId);
+      // Get HEAD position from layout algorithm, or calculate if not available
+      let position;
+      if (repository.headPosition) {
+        position = repository.headPosition;
+      } else {
+        // Find the target node to position relative to it
+        const targetNode = nodes.find(node => node.id === targetId);
+        
+        if (targetNode) {
+          position = { 
+            x: targetNode.position.x - 80, 
+            y: targetNode.position.y - 30 
+          };
+        }
+      }
       
-      if (targetNode) {
+      if (position) {
         nodes.push({
           id,
           type: 'head',
-          position: { 
-            x: targetNode.position.x - 80, 
-            y: targetNode.position.y - 30 
-          },
+          position: { x: position.x, y: position.y },
           data: { 
             label: 'HEAD', 
             detached: repository.HEAD.type === 'commit',
