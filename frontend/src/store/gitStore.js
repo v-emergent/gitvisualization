@@ -174,18 +174,28 @@ export const useGitStore = create(
         }
         
         // Update state with results
-        set((state) => ({
-          repository: result.success ? updatedRepository : state.repository,
-          commandHistory: updatedHistory,
-          lastCommandOutput: [
-            ...state.lastCommandOutput,
-            { 
-              command: commandStr, 
-              message: result.message,
-              error: !result.success
-            }
-          ]
-        }));
+        set((state) => {
+          // Apply layout algorithm to maintain visual structure
+          let updatedRepositoryWithLayout = result.success ? updatedRepository : state.repository;
+          
+          // Only apply layout if the repository is initialized
+          if (updatedRepositoryWithLayout.initialized) {
+            updatedRepositoryWithLayout = calculateRepositoryLayout(updatedRepositoryWithLayout);
+          }
+          
+          return {
+            repository: updatedRepositoryWithLayout,
+            commandHistory: updatedHistory,
+            lastCommandOutput: [
+              ...state.lastCommandOutput,
+              { 
+                command: commandStr, 
+                message: result.message,
+                error: !result.success
+              }
+            ]
+          };
+        });
       }
     }),
     {
