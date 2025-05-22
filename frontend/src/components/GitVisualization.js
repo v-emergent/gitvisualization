@@ -67,19 +67,29 @@ function GitVisualization() {
       const id = generateNodeId('branch', branchName);
       const targetCommitId = generateNodeId('commit', commitId);
       
-      // Get the target commit to position the branch node
-      const targetCommit = repository.commits[commitId];
-      const xOffset = 100;
-      const yOffset = -50 + (index * 40);
+      // Get branch position from layout algorithm, or calculate if not available
+      let position;
+      if (repository.branchPositions && repository.branchPositions[branchName]) {
+        position = repository.branchPositions[branchName];
+      } else {
+        // Fallback to old calculation method
+        const targetCommit = repository.commits[commitId];
+        const xOffset = 100;
+        const yOffset = -50 + (index * 40);
+        
+        if (targetCommit) {
+          position = { 
+            x: (targetCommit.x || 0) + xOffset, 
+            y: (targetCommit.y || 0) + yOffset 
+          };
+        }
+      }
       
-      if (targetCommit) {
+      if (position) {
         nodes.push({
           id,
           type: 'branch',
-          position: { 
-            x: (targetCommit.x || 0) + xOffset, 
-            y: (targetCommit.y || 0) + yOffset 
-          },
+          position: { x: position.x, y: position.y },
           data: { label: branchName, isCurrent: branchName === repository.currentBranch },
         });
         
