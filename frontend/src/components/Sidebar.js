@@ -176,7 +176,7 @@ function Sidebar() {
         <SectionHeader 
           title="BRANCH_NET.DAT" 
           section="branches" 
-          icon={GitBranchIcon}
+          icon={ShareIcon}
           count={Object.keys(repository.branches).length}
         />
         <AnimatePresence>
