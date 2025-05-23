@@ -21,7 +21,7 @@ function CommitNode({ data }) {
       className="relative"
     >
       {/* Main Node */}
-      <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 min-w-[180px] max-w-[220px]">
+      <div className="bg-gray-800 border border-gray-600 rounded-lg p-2 min-w-[140px] max-w-[180px]">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
