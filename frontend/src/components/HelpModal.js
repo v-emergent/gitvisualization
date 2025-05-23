@@ -75,10 +75,21 @@ function HelpModal({ isOpen, onClose }) {
               <h3 className="text-lg font-medium mb-3">Interface Elements</h3>
               <ul className="list-disc list-inside space-y-2">
                 <li><strong>Visualization Area:</strong> Shows your Git repository structure with commits, branches, and HEAD</li>
+                <li><strong>Working Directory:</strong> Files that are modified but not yet staged</li>
+                <li><strong>Staging Area/Index:</strong> Files that are staged and ready to be committed</li>
                 <li><strong>Command Terminal:</strong> Enter Git commands to manipulate the repository</li>
                 <li><strong>Theme Toggle:</strong> Switch between dark and light modes</li>
                 <li><strong>Reset Button:</strong> Clear your repository and start fresh</li>
               </ul>
+              
+              <h3 className="text-lg font-medium mt-4 mb-3">Git Workflow Visualization</h3>
+              <ol className="list-decimal list-inside space-y-2">
+                <li>Changes are made in the <strong>Working Directory</strong></li>
+                <li>Use <code>git add</code> to stage changes to the <strong>Staging Area/Index</strong></li>
+                <li>Use <code>git commit</code> to create a new commit from staged changes</li>
+                <li>Branches point to specific commits in the history</li>
+                <li>HEAD points to the current branch or commit</li>
+              </ol>
             </div>
           )}
 
