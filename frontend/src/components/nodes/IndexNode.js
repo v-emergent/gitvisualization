@@ -20,7 +20,7 @@ function IndexNode({ data }) {
       className="relative"
     >
       {/* Main Node */}
-      <div className="bg-gray-800 border border-cyan-600 rounded-lg p-3 min-w-[160px] max-w-[200px]">
+      <div className="bg-gray-800 border border-cyan-600 rounded-lg p-2 min-w-[130px] max-w-[160px]">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
