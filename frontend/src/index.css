@@ -123,13 +123,13 @@
     @apply shadow-[0_2px_10px_rgba(0,255,255,0.3)];
   }
   
-  /* Glow effects */
+  /* Glow effects - removed for readability */
   .cyber-glow {
-    @apply shadow-[0_0_10px_currentColor];
+    /* No glow effect */
   }
   
   .cyber-glow-strong {
-    @apply shadow-[0_0_20px_currentColor,0_0_40px_currentColor];
+    /* No glow effect */
   }
 }
 
