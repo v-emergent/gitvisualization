@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Handle, Position } from 'reactflow';
-import { GitBranchIcon, StarIcon } from '@heroicons/react/24/outline';
+import { ShareIcon, StarIcon } from '@heroicons/react/24/outline';
 
 function BranchNode({ data }) {
   const { label, isCurrent } = data;
