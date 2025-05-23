@@ -110,7 +110,10 @@ function CommandInput({ onStartTutorial }) {
         <h3 className="font-medium mb-2">Supported Commands:</h3>
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git init</div>
-          <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git add [file]</div>
+          <div className={`p-2 rounded ${theme === 'dark' ? 'bg-blue-800 text-white' : 'bg-blue-100 text-blue-800'}`}>
+            git add [file|.|--all]
+          </div>
+          <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git status</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git commit -m "message"</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git branch [name]</div>
           <div className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>git checkout [branch]</div>
