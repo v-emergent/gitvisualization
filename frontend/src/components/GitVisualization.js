@@ -280,7 +280,7 @@ function GitVisualization() {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="cyber-panel h-full relative overflow-hidden"
+      className="bg-gray-900 border border-gray-700 h-full relative overflow-hidden rounded-lg"
     >
       {/* Header */}
       <div className="absolute top-4 left-4 z-10">
