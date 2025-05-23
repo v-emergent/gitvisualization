@@ -104,6 +104,21 @@ function HelpModal({ isOpen, onClose }) {
                   <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git init</pre>
                 </div>
                 
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-blue-800 text-white' : 'bg-blue-100'}`}>
+                  <h4 className="font-medium mb-2">git add</h4>
+                  <p className="text-sm">Stages changes from working directory to the index.</p>
+                  <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git add filename.js</pre>
+                  <pre className="mt-1 text-xs bg-black text-green-400 p-2 rounded">$ git add .</pre>
+                  <pre className="mt-1 text-xs bg-black text-green-400 p-2 rounded">$ git add --all</pre>
+                  <p className="text-xs mt-2">Watch how files move from Working Directory to Staging Area in the visualization!</p>
+                </div>
+                
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <h4 className="font-medium mb-2">git status</h4>
+                  <p className="text-sm">Shows the state of the working directory and staging area.</p>
+                  <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git status</pre>
+                </div>
+                
                 <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
                   <h4 className="font-medium mb-2">git commit</h4>
                   <p className="text-sm">Creates a new commit with the given message.</p>
@@ -130,12 +145,6 @@ function HelpModal({ isOpen, onClose }) {
                   <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git merge branch_name</pre>
                 </div>
                 
-                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                  <h4 className="font-medium mb-2">git status</h4>
-                  <p className="text-sm">Shows the state of the working directory and staging area.</p>
-                  <pre className="mt-2 text-xs bg-black text-green-400 p-2 rounded">$ git status</pre>
-                </div>
-
                 <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
                   <h4 className="font-medium mb-2">git reset</h4>
                   <p className="text-sm">Resets current HEAD to the specified state. Has different modes:</p>
@@ -169,12 +178,28 @@ function HelpModal({ isOpen, onClose }) {
               
               <div className="space-y-4">
                 <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <h4 className="font-medium mb-2">Working Directory</h4>
+                  <p>The top-left box represents your working directory with files that have been modified but not yet staged.</p>
+                  <ul className="list-disc list-inside mt-2 space-y-1 text-sm">
+                    <li>Files marked with <strong>A</strong> are new files</li>
+                    <li>Files marked with <strong>M</strong> are modified files</li>
+                  </ul>
+                </div>
+                
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <h4 className="font-medium mb-2">Staging Area / Index</h4>
+                  <p>The top-right box represents your staging area (or index) with files that are staged for the next commit.</p>
+                  <p className="text-sm mt-1">Use <code>git add</code> to move files from the working directory to the staging area.</p>
+                </div>
+                
+                <div className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
                   <h4 className="font-medium mb-2">Commit Nodes</h4>
                   <p>Rectangular nodes representing Git commits. Each commit includes:</p>
                   <ul className="list-disc list-inside mt-2 space-y-1 text-sm">
                     <li>Commit hash (truncated to 7 characters)</li>
                     <li>Commit message</li>
                     <li>Author and timestamp</li>
+                    <li>Files included in the commit (if any)</li>
                   </ul>
                 </div>
                 
@@ -196,9 +221,11 @@ function HelpModal({ isOpen, onClose }) {
                   <h4 className="font-medium mb-2">Connections</h4>
                   <p>Different types of connections between nodes:</p>
                   <ul className="list-disc list-inside mt-2 space-y-1 text-sm">
-                    <li>Solid lines: Parent-child relationships between commits</li>
+                    <li>Solid lines with arrows: Parent-child relationships between commits</li>
                     <li>Dashed green lines: Branch references to commits</li>
                     <li>Animated red line: HEAD pointer to its target</li>
+                    <li>Blue line: Working directory to staging area (for git add)</li>
+                    <li>Green dashed line: Staging area to commit (for git commit)</li>
                   </ul>
                 </div>
               </div>
