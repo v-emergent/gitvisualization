@@ -1,17 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* Cyberpunk base styles */
+@layer base {
+  body {
+    background: #0a0a0f;
+    background-image: 
+      radial-gradient(circle at 25% 25%, #8000ff 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, #ff0080 0%, transparent 50%);
+    background-attachment: fixed;
+    font-family: 'Orbitron', monospace;
+    overflow-x: hidden;
+  }
+  
+  /* Scanline effect */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+    animation: scanline 2s linear infinite;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00ffff, #ff0080);
+    border-radius: 4px;
+    box-shadow: 0 0 10px #00ffff;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ff0080, #00ffff);
+  }
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+@layer components {
+  /* Cyber button styles */
+  .cyber-btn {
+    @apply relative px-4 py-2 font-cyber text-sm font-bold uppercase tracking-wider;
+    @apply bg-transparent border-2 border-cyber-cyan text-cyber-cyan;
+    @apply transition-all duration-300 hover:bg-cyber-cyan hover:text-cyber-dark;
+    @apply hover:shadow-[0_0_20px_theme(colors.cyber.cyan)];
+    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%, 15px 50%);
+  }
+  
+  .cyber-btn:hover {
+    animation: pulse-glow 0.5s ease-in-out;
+  }
+  
+  .cyber-btn-pink {
+    @apply border-cyber-pink text-cyber-pink hover:bg-cyber-pink;
+    @apply hover:shadow-[0_0_20px_theme(colors.cyber.pink)];
+  }
+  
+  .cyber-btn-green {
+    @apply border-cyber-green text-cyber-green hover:bg-cyber-green;
+    @apply hover:shadow-[0_0_20px_theme(colors.cyber.green)];
+  }
+  
+  /* Cyber panel styles */
+  .cyber-panel {
+    @apply bg-cyber-dark/80 backdrop-blur-sm border border-cyber-cyan/30;
+    @apply shadow-[0_0_20px_rgba(0,255,255,0.1)];
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  
+  .cyber-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(0,255,255,0.1), transparent);
+    background-size: 200% 200%;
+    animation: border-flow 3s linear infinite;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    z-index: -1;
+  }
+  
+  /* Cyber input styles */
+  .cyber-input {
+    @apply bg-cyber-darker/90 border border-cyber-cyan/50 text-cyber-cyan;
+    @apply focus:border-cyber-cyan focus:shadow-[0_0_10px_theme(colors.cyber.cyan)];
+    @apply placeholder:text-cyber-cyan/50 font-code;
+  }
+  
+  /* Terminal styles */
+  .cyber-terminal {
+    @apply bg-cyber-darker/95 backdrop-blur border border-cyber-green/30;
+    @apply font-code text-cyber-green;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cyber-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,255,65,0.03) 2px,
+        rgba(0,255,65,0.03) 4px
+      );
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .cyber-terminal .terminal-content {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* File tree styles */
+  .cyber-tree-item {
+    @apply px-3 py-1 text-cyber-cyan/80 hover:text-cyber-cyan;
+    @apply hover:bg-cyber-cyan/10 transition-all duration-200;
+    @apply border-l-2 border-transparent hover:border-cyber-cyan;
+  }
+  
+  /* Tab styles */
+  .cyber-tab {
+    @apply px-4 py-2 text-cyber-cyan/60 hover:text-cyber-cyan;
+    @apply border-b-2 border-transparent hover:border-cyber-cyan/50;
+    @apply transition-all duration-300;
+  }
+  
+  .cyber-tab.active {
+    @apply text-cyber-cyan border-cyber-cyan;
+    @apply shadow-[0_2px_10px_rgba(0,255,255,0.3)];
+  }
+  
+  /* Glow effects */
+  .cyber-glow {
+    @apply shadow-[0_0_10px_currentColor];
+  }
+  
+  .cyber-glow-strong {
+    @apply shadow-[0_0_20px_currentColor,0_0_40px_currentColor];
+  }
+}
+
+/* Circuit animation for backgrounds */
+@keyframes circuit-pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+.circuit-bg {
+  background-image: 
+    linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: circuit-pulse 4s ease-in-out infinite;
 }
