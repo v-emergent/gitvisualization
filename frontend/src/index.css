@@ -99,25 +99,6 @@
     overflow: hidden;
   }
   
-  .cyber-terminal::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,255,65,0.03) 2px,
-        rgba(0,255,65,0.03) 4px
-      );
-    pointer-events: none;
-    z-index: 1;
-  }
-  
   .cyber-terminal .terminal-content {
     position: relative;
     z-index: 2;
