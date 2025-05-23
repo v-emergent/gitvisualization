@@ -40,6 +40,11 @@ const tutorialSteps = [
     command: "git checkout feature",
   },
   {
+    title: "Add New Files on Feature Branch",
+    content: "Let's create and stage some new files on our feature branch. This simulates adding new code for a feature.",
+    command: "git add feature.js",
+  },
+  {
     title: "Make Changes on the Feature Branch",
     content: "Now that we're on the feature branch, let's make a commit. This will create a new commit that only exists on the feature branch.",
     command: "git commit -m \"Add new feature\"",
