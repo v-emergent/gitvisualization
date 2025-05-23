@@ -330,45 +330,55 @@ function GitVisualization() {
         defaultViewport={defaultViewport}
         fitView
         fitViewOptions={{ 
-          padding: 0.3,
+          padding: 0.2,
           includeHiddenNodes: true,
-          minZoom: 0.4,
-          maxZoom: 1.5
+          minZoom: 0.5,
+          maxZoom: 1.2
         }}
         attributionPosition="bottom-right"
         panOnScroll
-        minZoom={0.2}
-        maxZoom={2}
-        nodesDraggable={false}
+        minZoom={0.3}
+        maxZoom={1.5}
+        nodesDraggable={true}
         zoomOnDoubleClick={false}
         snapToGrid={true}
-        snapGrid={[20, 20]}
+        snapGrid={[25, 25]}
         elementsSelectable={true}
         proOptions={{ hideAttribution: true }}
-        style={{ background: '#1a1a2e' }}
+        style={{ 
+          background: '#1a1a2e',
+          zIndex: 1
+        }}
+        connectionLineStyle={{ 
+          stroke: '#64748b', 
+          strokeWidth: 2 
+        }}
+        edgeStyle={{ 
+          zIndex: 1000 
+        }}
       >
         <Background 
-          color="#00ffff" 
-          gap={20} 
+          color="#374151" 
+          gap={25} 
           size={1} 
-          style={{ opacity: 0.3 }}
+          style={{ opacity: 0.5 }}
         />
         <Controls 
           showInteractive={false}
           style={{
             button: {
-              backgroundColor: '#1a1a2e',
-              border: '1px solid #00ffff',
-              color: '#00ffff'
+              backgroundColor: '#374151',
+              border: '1px solid #6b7280',
+              color: '#d1d5db'
             }
           }}
         />
         <MiniMap 
-          nodeColor="#00ffff"
+          nodeColor="#6b7280"
           maskColor="rgba(26, 26, 46, 0.8)"
           style={{
-            backgroundColor: '#1a1a2e',
-            border: '1px solid #00ffff',
+            backgroundColor: '#374151',
+            border: '1px solid #6b7280',
             borderRadius: '8px',
           }}
         />
