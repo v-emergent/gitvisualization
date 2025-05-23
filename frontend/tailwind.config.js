@@ -27,32 +27,14 @@ module.exports = {
         'border-flow': 'border-flow 3s linear infinite',
       },
       keyframes: {
-        'pulse-glow': {
-          '0%': { 
-            boxShadow: '0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor',
-            opacity: '0.8'
-          },
-          '100%': { 
-            boxShadow: '0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor',
-            opacity: '1'
-          }
-        },
         'flicker': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.8' }
-        },
-        'scanline': {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100vh)' }
         },
         'border-flow': {
           '0%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
           '100%': { backgroundPosition: '0% 50%' }
-        },
-        'glow-rotate': {
-          '0%': { filter: 'hue-rotate(0deg)' },
-          '100%': { filter: 'hue-rotate(360deg)' }
         }
       },
       backgroundImage: {
