@@ -20,7 +20,7 @@ function BranchNode({ data }) {
       className="relative"
     >
       {/* Main Node */}
-      <div className={`bg-gray-800 border rounded-lg px-3 py-2 min-w-[120px] ${
+      <div className={`bg-gray-800 border rounded-lg px-2 py-2 min-w-[100px] ${
         isCurrent 
           ? 'border-blue-400' 
           : 'border-gray-600'
