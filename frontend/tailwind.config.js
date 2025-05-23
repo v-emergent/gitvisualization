@@ -23,11 +23,8 @@ module.exports = {
         }
       },
       animation: {
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
         'flicker': 'flicker 0.15s infinite linear',
-        'scanline': 'scanline 2s linear infinite',
         'border-flow': 'border-flow 3s linear infinite',
-        'glow-rotate': 'glow-rotate 4s linear infinite',
       },
       keyframes: {
         'pulse-glow': {
