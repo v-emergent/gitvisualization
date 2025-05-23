@@ -6,14 +6,14 @@
  */
 
 // Constants for layout
-const HORIZONTAL_SPACING = 180; // Space between commits in X direction
-const VERTICAL_SPACING = 100;   // Space between parallel branches in Y direction
-const BRANCH_X_OFFSET = 100;    // X offset for branch labels
-const BRANCH_Y_OFFSET = -40;    // Y offset for branch labels
-const HEAD_X_OFFSET = -80;      // X offset for HEAD pointer
-const HEAD_Y_OFFSET = -30;      // Y offset for HEAD pointer
-const INITIAL_X = 300;          // X position for initial commit
-const INITIAL_Y = 300;          // Y position for initial commit
+const HORIZONTAL_SPACING = 250; // Space between commits in X direction (increased for clarity)
+const VERTICAL_SPACING = 150;   // Space between parallel branches in Y direction (increased for clarity)
+const BRANCH_X_OFFSET = 120;    // X offset for branch labels
+const BRANCH_Y_OFFSET = -50;    // Y offset for branch labels
+const HEAD_X_OFFSET = -100;     // X offset for HEAD pointer
+const HEAD_Y_OFFSET = -50;      // Y offset for HEAD pointer
+const INITIAL_X = 200;          // X position for initial commit
+const INITIAL_Y = 250;          // Y position for initial commit
 
 /**
  * Calculate positions for all elements in a Git repository
@@ -66,7 +66,7 @@ export function calculateRepositoryLayout(repository) {
       const commit = repositoryCopy.commits[commitId];
       
       // Check if all parents are processed
-      const allParentsProcessed = commit.parents.every(parentId => 
+      const allParentsProcessed = commit.parents && commit.parents.every(parentId => 
         processedCommits.has(parentId)
       );
       
@@ -90,7 +90,8 @@ export function calculateRepositoryLayout(repository) {
     if (targetCommit) {
       const lane = commitLanes[commitId] || 0;
       const xOffset = BRANCH_X_OFFSET;
-      const yOffset = BRANCH_Y_OFFSET + (index % 3) * 30; // Stagger branches vertically to avoid overlap
+      // Stagger branches vertically to avoid overlap - more space between them
+      const yOffset = BRANCH_Y_OFFSET + (index % 3) * 50; 
       
       // Store position in the branch object
       if (!repositoryCopy.branchPositions) {
@@ -136,6 +137,17 @@ export function calculateRepositoryLayout(repository) {
       };
     }
   }
+
+  // Add index/staging area and working directory positions
+  repositoryCopy.indexPosition = {
+    x: INITIAL_X + HORIZONTAL_SPACING * 0.5,
+    y: INITIAL_Y - VERTICAL_SPACING * 1.5
+  };
+
+  repositoryCopy.workingDirPosition = {
+    x: INITIAL_X,
+    y: INITIAL_Y - VERTICAL_SPACING * 1.5
+  };
   
   return repositoryCopy;
 }
@@ -144,7 +156,7 @@ export function calculateRepositoryLayout(repository) {
  * Position a commit based on its parents
  */
 function positionCommit(commit, commits, commitLanes, occupiedLanes) {
-  if (commit.parents.length === 0) {
+  if (!commit.parents || commit.parents.length === 0) {
     // This is a root commit, should be positioned already
     return;
   }
