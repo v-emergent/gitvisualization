@@ -284,27 +284,27 @@ function GitVisualization() {
     >
       {/* Header */}
       <div className="absolute top-4 left-4 z-10">
-        <div className="cyber-panel bg-cyber-dark/90 backdrop-blur-sm px-4 py-2">
-          <h3 className="font-cyber text-cyber-cyan text-lg font-bold">
-            &gt; NEURAL_REPOSITORY.MAP
+        <div className="bg-gray-800 border border-gray-600 rounded px-4 py-2">
+          <h3 className="text-white text-lg font-bold">
+            Git Repository
           </h3>
-          <p className="text-xs text-cyber-cyan/60 font-code">
-            VISUALIZING GIT_STRUCTURE.DAT
+          <p className="text-xs text-gray-400">
+            Repository visualization
           </p>
         </div>
       </div>
 
       {/* Stats Panel */}
       <div className="absolute top-4 right-4 z-10">
-        <div className="cyber-panel bg-cyber-dark/90 backdrop-blur-sm px-4 py-2">
-          <div className="flex space-x-4 text-xs font-code">
-            <span className="text-cyber-green">
-              COMMITS: {Object.keys(repository.commits).length}
+        <div className="bg-gray-800 border border-gray-600 rounded px-4 py-2">
+          <div className="flex space-x-4 text-xs">
+            <span className="text-green-400">
+              Commits: {Object.keys(repository.commits).length}
             </span>
-            <span className="text-cyber-pink">
-              BRANCHES: {Object.keys(repository.branches).length}
+            <span className="text-blue-400">
+              Branches: {Object.keys(repository.branches).length}
             </span>
-            <span className="text-cyber-yellow">
+            <span className="text-yellow-400">
               HEAD: {repository.HEAD?.type || 'NULL'}
             </span>
           </div>
