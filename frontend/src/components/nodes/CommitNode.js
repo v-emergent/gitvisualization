@@ -17,34 +17,42 @@ function CommitNode({ data }) {
 
   return (
     <div 
-      className={`px-4 py-2 rounded-lg border-2 font-mono text-sm ${
+      className={`px-6 py-4 rounded-xl border-2 font-mono text-base shadow-lg min-w-[240px] ${
         theme === 'dark' 
-          ? 'bg-gray-800 border-gray-700 text-white' 
+          ? 'bg-gray-800 border-gray-600 text-white' 
           : 'bg-white border-gray-300 text-gray-900'
       }`}
     >
       <Handle
         type="target"
         position={Position.Left}
-        className="w-4 h-4 border-2 bg-gray-200"
+        className="w-5 h-5 border-2 left-[-10px] bg-gray-200"
       />
-      <div className="flex items-center">
-        <div 
-          className="w-3 h-3 rounded-full mr-2" 
-          style={{ backgroundColor: data.color || '#10b981' }} 
-        />
-        <div className="font-bold">{data.id}</div>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center">
+          <div 
+            className="w-5 h-5 rounded-full mr-3" 
+            style={{ backgroundColor: data.color || '#10b981' }} 
+          />
+          <div className="font-bold text-lg">{data.id}</div>
+        </div>
+        {data.files && data.files.length > 0 && (
+          <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+            {data.files.length} file{data.files.length > 1 ? 's' : ''}
+          </div>
+        )}
       </div>
-      <div className="mt-1 text-xs">{data.label}</div>
+      <div className="my-2 p-2 border-l-4 border-gray-500 pl-3">{data.label}</div>
       {data.author && (
-        <div className={`mt-1 text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-          {data.author} • {formatDate(data.timestamp)}
+        <div className={`mt-2 text-sm flex justify-between items-center ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+          <span>{data.author}</span>
+          <span className="text-xs">{formatDate(data.timestamp)}</span>
         </div>
       )}
       <Handle
         type="source"
         position={Position.Right}
-        className="w-4 h-4 border-2 bg-gray-200"
+        className="w-5 h-5 border-2 right-[-10px] bg-gray-200"
       />
     </div>
   );
