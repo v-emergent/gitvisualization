@@ -34,7 +34,7 @@ function BranchNode({ data }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
-            <GitBranchIcon className={`h-5 w-5 ${
+            <ShareIcon className={`h-5 w-5 ${
               isCurrent ? 'text-cyber-pink' : 'text-cyber-green'
             }`} />
             {isCurrent && (
