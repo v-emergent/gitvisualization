@@ -197,7 +197,7 @@ function Sidebar() {
                       name === repository.currentBranch ? 'bg-cyber-cyan/10' : ''
                     }`}
                   >
-                    <GitBranchIcon className="h-4 w-4 text-cyber-green" />
+                    <ShareIcon className="h-4 w-4 text-cyber-green" />
                     <span className="text-sm font-code text-cyber-cyan">
                       {name}
                       {name === repository.currentBranch && ' *'}
