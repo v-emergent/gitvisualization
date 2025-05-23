@@ -7,7 +7,7 @@ import {
   CodeBracketIcon,
   ChevronRightIcon,
   ChevronDownIcon,
-  GitBranchIcon,
+  ShareIcon,
   ClockIcon,
   UserIcon
 } from '@heroicons/react/24/outline';
