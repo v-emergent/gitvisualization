@@ -544,10 +544,68 @@ function handleGitMerge(repository, args) {
 
 // Add file contents to the index
 function handleGitAdd(repository, args) {
-  // Simplified implementation
+  if (!repository.initialized) {
+    return { 
+      success: false, 
+      message: 'Not a git repository',
+      error: true
+    };
+  }
+  
+  // Initialize objects if they don't exist
+  if (!repository.index) {
+    repository.index = {};
+  }
+  if (!repository.workingDirectory) {
+    repository.workingDirectory = {};
+  }
+  
+  // Handle different argument patterns
+  let filesToAdd = [];
+  let message = '';
+  
+  if (args.length === 0) {
+    // No arguments, show error
+    return { 
+      success: false, 
+      message: 'Nothing specified, nothing added.',
+      error: true
+    };
+  } else if (args.includes('.') || args.includes('-A') || args.includes('--all')) {
+    // Add all files
+    filesToAdd = Object.keys(repository.workingDirectory);
+    message = 'Added all files to the staging area';
+    
+    // If no files in working directory, create some example files
+    if (filesToAdd.length === 0) {
+      filesToAdd = ['example.js', 'README.md', 'styles.css'];
+      filesToAdd.forEach(file => {
+        repository.workingDirectory[file] = 'modified';
+      });
+      message = 'Added example files to the staging area';
+    }
+  } else {
+    // Add specific files
+    filesToAdd = args;
+    
+    // If specified files don't exist in working directory, add them
+    filesToAdd.forEach(file => {
+      if (!repository.workingDirectory[file]) {
+        repository.workingDirectory[file] = 'new';
+      }
+    });
+    
+    message = `Added ${filesToAdd.length} file(s) to the staging area`;
+  }
+  
+  // Move files from working directory to index
+  filesToAdd.forEach(file => {
+    repository.index[file] = repository.workingDirectory[file] || 'new';
+  });
+  
   return { 
     success: true, 
-    message: 'Changes staged for commit'
+    message: message
   };
 }
 
