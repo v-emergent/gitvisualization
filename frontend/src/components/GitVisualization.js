@@ -335,19 +335,19 @@ function GitVisualization() {
         snapGrid={[20, 20]}
         elementsSelectable={true}
         proOptions={{ hideAttribution: true }}
-        style={{ background: 'transparent' }}
+        style={{ background: '#1a1a2e' }}
       >
         <Background 
           color="#00ffff" 
           gap={20} 
           size={1} 
-          style={{ opacity: 0.1 }}
+          style={{ opacity: 0.3 }}
         />
         <Controls 
           showInteractive={false}
           style={{
             button: {
-              backgroundColor: '#0a0a0f',
+              backgroundColor: '#1a1a2e',
               border: '1px solid #00ffff',
               color: '#00ffff'
             }
@@ -355,9 +355,9 @@ function GitVisualization() {
         />
         <MiniMap 
           nodeColor="#00ffff"
-          maskColor="rgba(10, 10, 15, 0.8)"
+          maskColor="rgba(26, 26, 46, 0.8)"
           style={{
-            backgroundColor: '#0a0a0f',
+            backgroundColor: '#1a1a2e',
             border: '1px solid #00ffff',
             borderRadius: '8px',
           }}
