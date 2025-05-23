@@ -310,9 +310,16 @@ function handleGitCommit(repository, args) {
     author: 'User',
     timestamp: Date.now(),
     color: getRandomColor(),
-    x,
-    y
+    x: x,
+    y: y,
+    files: repository.index ? Object.keys(repository.index).map(name => ({
+      name,
+      status: repository.index[name]
+    })) : []
   };
+  
+  // Clear the staging area (index) after commit
+  repository.index = {};
   
   // Update branch if HEAD points to a branch
   if (head.type === 'branch') {
