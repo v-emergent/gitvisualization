@@ -5,6 +5,7 @@ import ReactFlow, {
   MiniMap,
   useNodesState,
   useEdgesState,
+  MarkerType,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useGitStore } from '../store/gitStore';
@@ -12,12 +13,16 @@ import { useThemeStore } from '../store/themeStore';
 import CommitNode from './nodes/CommitNode';
 import BranchNode from './nodes/BranchNode';
 import HeadNode from './nodes/HeadNode';
+import WorkingDirNode from './nodes/WorkingDirNode';
+import IndexNode from './nodes/IndexNode';
 
 // Node types for custom rendering
 const nodeTypes = {
   commit: CommitNode,
   branch: BranchNode,
   head: HeadNode,
+  workingDir: WorkingDirNode,
+  index: IndexNode,
 };
 
 function GitVisualization() {
@@ -32,6 +37,53 @@ function GitVisualization() {
     // Helper to generate a unique node ID
     const generateNodeId = (type, id) => `${type}-${id}`;
     
+    // Add Working Directory node
+    if (repository.initialized) {
+      nodes.push({
+        id: 'working-directory',
+        type: 'workingDir',
+        position: repository.workingDirPosition || { x: 200, y: 50 },
+        data: { 
+          files: repository.workingDirectory ? 
+            Object.entries(repository.workingDirectory).map(([name, status]) => ({ name, status })) : 
+            []
+        },
+      });
+      
+      // Add Index/Staging Area node
+      nodes.push({
+        id: 'index',
+        type: 'index',
+        position: repository.indexPosition || { x: 450, y: 50 },
+        data: { 
+          files: repository.index ? 
+            Object.entries(repository.index).map(([name, status]) => ({ name, status })) : 
+            []
+        },
+      });
+      
+      // Add edge from Working Directory to Index
+      edges.push({
+        id: 'working-to-index',
+        source: 'working-directory',
+        sourceHandle: 'working-to-index',
+        target: 'index',
+        targetHandle: 'working-to-index',
+        animated: true,
+        style: { 
+          stroke: theme === 'dark' ? '#60a5fa' : '#3b82f6', 
+          strokeWidth: 3 
+        },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 20,
+          height: 20,
+          color: theme === 'dark' ? '#60a5fa' : '#3b82f6',
+        },
+        type: 'smoothstep',
+      });
+    }
+    
     // Create nodes for each commit
     Object.values(repository.commits).forEach((commit) => {
       const id = generateNodeId('commit', commit.id);
@@ -44,7 +96,8 @@ function GitVisualization() {
           id: commit.id.substring(0, 7),
           author: commit.author,
           timestamp: commit.timestamp,
-          color: commit.color
+          color: commit.color,
+          files: commit.files || []
         },
       });
       
@@ -56,8 +109,39 @@ function GitVisualization() {
             source: generateNodeId('commit', parentId),
             target: id,
             animated: false,
-            style: { stroke: theme === 'dark' ? '#9ca3af' : '#4b5563', strokeWidth: 2 },
+            style: { 
+              stroke: theme === 'dark' ? '#9ca3af' : '#4b5563', 
+              strokeWidth: 3 
+            },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              width: 20,
+              height: 20,
+              color: theme === 'dark' ? '#9ca3af' : '#4b5563',
+            },
+            type: 'smoothstep',
           });
+        });
+      } else if (repository.initialized) {
+        // Connect initial commit to the index
+        edges.push({
+          id: `index-to-${id}`,
+          source: 'index',
+          sourceHandle: 'index-to-commit',
+          target: id,
+          animated: false,
+          style: { 
+            stroke: theme === 'dark' ? '#10b981' : '#059669',
+            strokeWidth: 3,
+            strokeDasharray: '5,5' 
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: theme === 'dark' ? '#10b981' : '#059669',
+          },
+          type: 'smoothstep',
         });
       }
     });
@@ -74,8 +158,8 @@ function GitVisualization() {
       } else {
         // Fallback to old calculation method
         const targetCommit = repository.commits[commitId];
-        const xOffset = 100;
-        const yOffset = -50 + (index * 40);
+        const xOffset = 120;
+        const yOffset = -60 + (index * 50);
         
         if (targetCommit) {
           position = { 
@@ -98,7 +182,18 @@ function GitVisualization() {
           source: id,
           target: targetCommitId,
           animated: false,
-          style: { stroke: '#10b981', strokeWidth: 2, strokeDasharray: '5,5' },
+          style: { 
+            stroke: '#10b981', 
+            strokeWidth: 3,
+            strokeDasharray: '10,5' 
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: '#10b981',
+          },
+          type: 'smoothstep',
         });
       }
     });
@@ -120,8 +215,8 @@ function GitVisualization() {
         
         if (targetNode) {
           position = { 
-            x: targetNode.position.x - 80, 
-            y: targetNode.position.y - 30 
+            x: targetNode.position.x - 100, 
+            y: targetNode.position.y - 50 
           };
         }
       }
@@ -143,7 +238,17 @@ function GitVisualization() {
           source: id,
           target: targetId,
           animated: true,
-          style: { stroke: '#ef4444', strokeWidth: 2 },
+          style: { 
+            stroke: '#ef4444', 
+            strokeWidth: 3 
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: '#ef4444',
+          },
+          type: 'smoothstep',
         });
       }
     }
@@ -167,7 +272,7 @@ function GitVisualization() {
   };
   
   // Default viewport settings
-  const defaultViewport = { x: 0, y: 0, zoom: 1 };
+  const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
   
   return (
     <div className={`border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'} rounded-lg overflow-hidden h-[70vh]`}>
@@ -181,10 +286,10 @@ function GitVisualization() {
         defaultViewport={defaultViewport}
         fitView
         fitViewOptions={{ 
-          padding: 0.2,
+          padding: 0.3,
           includeHiddenNodes: true,
-          minZoom: 0.5,
-          maxZoom: 2
+          minZoom: 0.4,
+          maxZoom: 1.5
         }}
         attributionPosition="bottom-right"
         panOnScroll
@@ -194,12 +299,18 @@ function GitVisualization() {
         zoomOnDoubleClick={false}
         snapToGrid={true}
         snapGrid={[20, 20]}
+        elementsSelectable={true}
+        proOptions={{ hideAttribution: true }}
       >
-        <Background color={theme === 'dark' ? '#4b5563' : '#d1d5db'} gap={16} />
-        <Controls />
+        <Background color={theme === 'dark' ? '#4b5563' : '#d1d5db'} gap={20} size={1} />
+        <Controls showInteractive={false} />
         <MiniMap 
           nodeColor={theme === 'dark' ? '#d1d5db' : '#4b5563'}
           maskColor={theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(243, 244, 246, 0.7)'}
+          style={{
+            borderRadius: '0.5rem',
+            border: theme === 'dark' ? '1px solid #4b5563' : '1px solid #d1d5db',
+          }}
         />
       </ReactFlow>
     </div>
