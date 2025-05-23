@@ -23,44 +23,36 @@ function HeadNode({ data }) {
       }}
       className="relative"
     >
-      {/* Intense Glow Effect for HEAD */}
-      <div className="absolute inset-0 rounded-lg blur-xl opacity-70 animate-glow-rotate bg-gradient-to-r from-cyber-purple via-cyber-pink to-cyber-cyan" />
-      
       {/* Main Node */}
-      <div className={`relative backdrop-blur-sm border-3 rounded-lg px-4 py-3 min-w-[160px] ${
+      <div className={`bg-gray-800 border rounded-lg px-3 py-2 min-w-[140px] ${
         detached 
-          ? 'bg-red-500/20 border-red-500' 
-          : 'bg-cyber-purple/20 border-cyber-purple'
+          ? 'border-red-500' 
+          : 'border-purple-500'
       }`}>
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-1">
           <div className="flex items-center space-x-2">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              <CpuChipIcon className={`h-6 w-6 ${
-                detached ? 'text-red-400' : 'text-cyber-purple'
-              }`} />
-            </motion.div>
+            <CpuChipIcon className={`h-4 w-4 ${
+              detached ? 'text-red-400' : 'text-purple-400'
+            }`} />
             {detached && (
-              <ExclamationTriangleIcon className="h-5 w-5 text-red-400 animate-pulse" />
+              <ExclamationTriangleIcon className="h-3 w-3 text-red-400" />
             )}
           </div>
-          <div className={`text-xs font-code px-2 py-0.5 rounded ${
+          <div className={`text-xs px-2 py-0.5 rounded ${
             detached 
-              ? 'bg-red-500/30 text-red-400' 
-              : 'bg-cyber-purple/30 text-cyber-purple'
+              ? 'bg-red-900 text-red-300' 
+              : 'bg-purple-900 text-purple-300'
           }`}>
             {detached ? 'DETACHED' : 'ATTACHED'}
           </div>
         </div>
         
         {/* HEAD Label */}
-        <div className="mb-2">
-          <p className={`font-cyber font-black text-lg ${
-            detached ? 'text-red-400' : 'text-cyber-purple'
+        <div className="mb-1">
+          <p className={`font-bold text-sm ${
+            detached ? 'text-red-300' : 'text-purple-300'
           }`}>
             {label}
           </p>
@@ -68,56 +60,37 @@ function HeadNode({ data }) {
         
         {/* Reference Info */}
         <div className="space-y-1">
-          <div className={`text-xs font-code ${
-            detached ? 'text-red-300/80' : 'text-cyber-purple/80'
+          <div className={`text-xs ${
+            detached ? 'text-red-400' : 'text-purple-400'
           }`}>
-            TARGET: {reference?.substring(0, 10)}...
+            → {reference?.substring(0, 8)}...
           </div>
           <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full animate-pulse ${
-              detached ? 'bg-red-400' : 'bg-cyber-purple'
+            <div className={`w-2 h-2 rounded-full ${
+              detached ? 'bg-red-400' : 'bg-purple-400'
             }`} />
-            <span className={`text-xs font-code ${
-              detached ? 'text-red-300/80' : 'text-cyber-purple/80'
+            <span className={`text-xs ${
+              detached ? 'text-red-400' : 'text-purple-400'
             }`}>
-              {detached ? 'FLOATING_STATE' : 'BRANCH_LINKED'}
+              {detached ? 'Detached' : 'Linked'}
             </span>
           </div>
         </div>
         
         {/* Warning for detached HEAD */}
         {detached && (
-          <motion.div
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1, repeat: Infinity }}
-            className="mt-2 p-2 bg-red-500/10 border border-red-500/30 rounded text-xs font-code text-red-300"
-          >
-            ⚠ DETACHED HEAD STATE
-          </motion.div>
+          <div className="mt-2 p-1 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300">
+            ⚠ Detached HEAD
+          </div>
         )}
-        
-        {/* Animated Circuit Pattern */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none rounded-lg overflow-hidden">
-          <motion.div
-            animate={{ 
-              backgroundPosition: ['0% 0%', '100% 100%'],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            className="w-full h-full"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23${detached ? 'ff4444' : '8000ff'}' fill-opacity='0.3'%3E%3Cpath d='M15 15.5V13H14V15.5H11.5V16H14V18.5H15V16H17.5V15.5H15ZM18.5 6V4.5H17V6H15.5V7H17V8.5H18.5V7H20V6H18.5Z'/%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '30px 30px'
-            }}
-          />
-        </div>
       </div>
       
       {/* Handles */}
       <Handle
         type="source"
         position={Position.Bottom}
-        className={`w-4 h-4 border-3 bg-cyber-dark ${
-          detached ? 'border-red-500' : 'border-cyber-purple'
+        className={`w-2 h-2 border bg-gray-700 ${
+          detached ? 'border-red-500' : 'border-purple-500'
         }`}
       />
     </motion.div>
