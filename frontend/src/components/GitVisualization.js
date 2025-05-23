@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useEffect } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import ReactFlow, {
   Background,
   Controls,
@@ -62,7 +63,7 @@ function GitVisualization() {
         },
       });
       
-      // Add edge from Working Directory to Index
+      // Add edge from Working Directory to Index with cyberpunk style
       edges.push({
         id: 'working-to-index',
         source: 'working-directory',
@@ -71,14 +72,15 @@ function GitVisualization() {
         targetHandle: 'working-to-index',
         animated: true,
         style: { 
-          stroke: theme === 'dark' ? '#60a5fa' : '#3b82f6', 
-          strokeWidth: 3 
+          stroke: '#00ffff', 
+          strokeWidth: 3,
+          filter: 'drop-shadow(0 0 6px #00ffff)'
         },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 20,
           height: 20,
-          color: theme === 'dark' ? '#60a5fa' : '#3b82f6',
+          color: '#00ffff',
         },
         type: 'smoothstep',
       });
@@ -101,23 +103,24 @@ function GitVisualization() {
         },
       });
       
-      // Create edges for parent-child relationships
+      // Create edges for parent-child relationships with neon glow
       if (commit.parents && commit.parents.length > 0) {
         commit.parents.forEach(parentId => {
           edges.push({
             id: `${id}-${generateNodeId('commit', parentId)}`,
             source: generateNodeId('commit', parentId),
             target: id,
-            animated: false,
+            animated: true,
             style: { 
-              stroke: theme === 'dark' ? '#9ca3af' : '#4b5563', 
-              strokeWidth: 3 
+              stroke: '#00ff41', 
+              strokeWidth: 3,
+              filter: 'drop-shadow(0 0 6px #00ff41)'
             },
             markerEnd: {
               type: MarkerType.ArrowClosed,
               width: 20,
               height: 20,
-              color: theme === 'dark' ? '#9ca3af' : '#4b5563',
+              color: '#00ff41',
             },
             type: 'smoothstep',
           });
@@ -131,15 +134,16 @@ function GitVisualization() {
           target: id,
           animated: false,
           style: { 
-            stroke: theme === 'dark' ? '#10b981' : '#059669',
+            stroke: '#ffff00',
             strokeWidth: 3,
-            strokeDasharray: '5,5' 
+            strokeDasharray: '5,5',
+            filter: 'drop-shadow(0 0 6px #ffff00)'
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
             width: 20,
             height: 20,
-            color: theme === 'dark' ? '#10b981' : '#059669',
+            color: '#ffff00',
           },
           type: 'smoothstep',
         });
@@ -183,15 +187,16 @@ function GitVisualization() {
           target: targetCommitId,
           animated: false,
           style: { 
-            stroke: '#10b981', 
+            stroke: '#ff0080', 
             strokeWidth: 3,
-            strokeDasharray: '10,5' 
+            strokeDasharray: '10,5',
+            filter: 'drop-shadow(0 0 6px #ff0080)'
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
             width: 20,
             height: 20,
-            color: '#10b981',
+            color: '#ff0080',
           },
           type: 'smoothstep',
         });
@@ -239,14 +244,15 @@ function GitVisualization() {
           target: targetId,
           animated: true,
           style: { 
-            stroke: '#ef4444', 
-            strokeWidth: 3 
+            stroke: '#8000ff', 
+            strokeWidth: 4,
+            filter: 'drop-shadow(0 0 8px #8000ff)'
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
-            width: 20,
-            height: 20,
-            color: '#ef4444',
+            width: 24,
+            height: 24,
+            color: '#8000ff',
           },
           type: 'smoothstep',
         });
@@ -266,23 +272,51 @@ function GitVisualization() {
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setNodes, setEdges]);
   
-  // Define edge types for different edge styles
-  const edgeTypes = {
-    default: 'smoothstep',
-  };
-  
   // Default viewport settings
   const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
   
   return (
-    <div className={`border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'} rounded-lg overflow-hidden h-[70vh]`}>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="cyber-panel h-full relative overflow-hidden"
+    >
+      {/* Header */}
+      <div className="absolute top-4 left-4 z-10">
+        <div className="cyber-panel bg-cyber-dark/90 backdrop-blur-sm px-4 py-2">
+          <h3 className="font-cyber text-cyber-cyan text-lg font-bold">
+            &gt; NEURAL_REPOSITORY.MAP
+          </h3>
+          <p className="text-xs text-cyber-cyan/60 font-code">
+            VISUALIZING GIT_STRUCTURE.DAT
+          </p>
+        </div>
+      </div>
+
+      {/* Stats Panel */}
+      <div className="absolute top-4 right-4 z-10">
+        <div className="cyber-panel bg-cyber-dark/90 backdrop-blur-sm px-4 py-2">
+          <div className="flex space-x-4 text-xs font-code">
+            <span className="text-cyber-green">
+              COMMITS: {Object.keys(repository.commits).length}
+            </span>
+            <span className="text-cyber-pink">
+              BRANCHES: {Object.keys(repository.branches).length}
+            </span>
+            <span className="text-cyber-yellow">
+              HEAD: {repository.HEAD?.type || 'NULL'}
+            </span>
+          </div>
+        </div>
+      </div>
+      
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
         defaultViewport={defaultViewport}
         fitView
         fitViewOptions={{ 
@@ -301,19 +335,35 @@ function GitVisualization() {
         snapGrid={[20, 20]}
         elementsSelectable={true}
         proOptions={{ hideAttribution: true }}
+        style={{ background: 'transparent' }}
       >
-        <Background color={theme === 'dark' ? '#4b5563' : '#d1d5db'} gap={20} size={1} />
-        <Controls showInteractive={false} />
-        <MiniMap 
-          nodeColor={theme === 'dark' ? '#d1d5db' : '#4b5563'}
-          maskColor={theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(243, 244, 246, 0.7)'}
+        <Background 
+          color="#00ffff" 
+          gap={20} 
+          size={1} 
+          style={{ opacity: 0.1 }}
+        />
+        <Controls 
+          showInteractive={false}
           style={{
-            borderRadius: '0.5rem',
-            border: theme === 'dark' ? '1px solid #4b5563' : '1px solid #d1d5db',
+            button: {
+              backgroundColor: '#0a0a0f',
+              border: '1px solid #00ffff',
+              color: '#00ffff'
+            }
+          }}
+        />
+        <MiniMap 
+          nodeColor="#00ffff"
+          maskColor="rgba(10, 10, 15, 0.8)"
+          style={{
+            backgroundColor: '#0a0a0f',
+            border: '1px solid #00ffff',
+            borderRadius: '8px',
           }}
         />
       </ReactFlow>
-    </div>
+    </motion.div>
   );
 }
 
