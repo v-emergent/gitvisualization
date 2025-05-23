@@ -635,8 +635,47 @@ function handleGitStatus(repository) {
     output += `HEAD detached at ${repository.HEAD.reference.substring(0, 7)}\n`;
   }
   
-  // Simplified status
-  output += 'No changes to commit\n';
+  // Changes to be committed (index)
+  const indexFiles = repository.index ? Object.keys(repository.index) : [];
+  if (indexFiles.length > 0) {
+    output += '\nChanges to be committed:\n  (use "git reset HEAD <file>..." to unstage)\n\n';
+    
+    indexFiles.forEach(file => {
+      const status = repository.index[file];
+      if (status === 'new') {
+        output += `\tnew file:   ${file}\n`;
+      } else if (status === 'modified') {
+        output += `\tmodified:   ${file}\n`;
+      } else if (status === 'deleted') {
+        output += `\tdeleted:    ${file}\n`;
+      }
+    });
+  }
+  
+  // Changes not staged for commit (working directory)
+  const workingDirFiles = repository.workingDirectory ? 
+    Object.keys(repository.workingDirectory).filter(file => !indexFiles.includes(file)) : 
+    [];
+  
+  if (workingDirFiles.length > 0) {
+    output += '\nChanges not staged for commit:\n  (use "git add <file>..." to update what will be committed)\n\n';
+    
+    workingDirFiles.forEach(file => {
+      const status = repository.workingDirectory[file];
+      if (status === 'modified') {
+        output += `\tmodified:   ${file}\n`;
+      } else if (status === 'deleted') {
+        output += `\tdeleted:    ${file}\n`;
+      } else {
+        output += `\t${file}\n`;
+      }
+    });
+  }
+  
+  // No changes
+  if (indexFiles.length === 0 && workingDirFiles.length === 0) {
+    output += '\nNo changes to commit (working directory clean)\n';
+  }
   
   return { 
     success: true, 
