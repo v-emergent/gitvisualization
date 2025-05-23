@@ -15,6 +15,16 @@ const tutorialSteps = [
     command: "git init",
   },
   {
+    title: "Add Files to the Staging Area",
+    content: "Now let's stage some files for our first commit. The git add command moves changes from the Working Directory to the Staging Area (Index). You'll see files appear in the visualization.",
+    command: "git add --all",
+  },
+  {
+    title: "Check Repository Status",
+    content: "Let's check the status of our repository to see what files are staged and ready to be committed.",
+    command: "git status",
+  },
+  {
     title: "Make Your First Commit",
     content: "Now that we have a repository, let's create our first commit. In a real project, this would typically happen after adding some files to track.",
     command: "git commit -m \"Initial commit\"",
